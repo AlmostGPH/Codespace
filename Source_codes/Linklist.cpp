@@ -27,7 +27,7 @@ public:
     bool isEmpty();
     void clear();
     int length();
-    bool append(const);
+    bool append(const T value);
     bool insert(const int p,const T value);
     bool lnkdelete(const int p);
     bool getValue(const int p,T& value);
@@ -101,20 +101,23 @@ bool lnkList<T>::isEmpty(){
 
 template<class T>
 void lnkList<T>::clear(){
-    Link<T> *p;
-    if(p->next==NULL){
-        delete p;
+    Link<T>* tmp;
+    while(head!=NULL){
+        tmp=head;
+        head=head->next;
+        delete tmp;
     }
-    else {
-        while(p!=NULL){
-            p=p->next;
-            clear();
-        }
-    }
+    delete head;
+    delete tail;
 }
 
-
-
-
-
-
+template<class T>
+int lnkList<T>::length(){
+    Link<T>* p;
+    int t=0;
+    while(p!=NULL){
+        p=p->next
+        t++
+    }
+    return t;
+}
