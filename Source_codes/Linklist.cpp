@@ -8,7 +8,7 @@ public:
     Link<T> *next;
 
     Link(const T info,const Link<T>*nextValue=NULL){
-        date=info;
+        data=info;
         next=nextValue;
     }
     Link(const Link<T>*nextValue){
@@ -116,8 +116,13 @@ int lnkList<T>::length(){
     Link<T>* p;
     int t=0;
     while(p!=NULL){
-        p=p->next
-        t++
+        p=p->next;
+        t++;
     }
     return t;
+}
+
+int main(){
+
+    return 0;
 }
