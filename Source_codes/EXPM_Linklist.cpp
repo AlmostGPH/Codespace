@@ -37,8 +37,8 @@ public:
 
 template<class T>
 lnkList<T>::lnkList(int defSize){
-    head=new Link<T>;
-    tail=new Link<T>;
+    head=new Link<T>(defSize);
+    tail=new Link<T>(defSize);
 }
 template<class T>
 lnkList<T>::~lnkList(){
