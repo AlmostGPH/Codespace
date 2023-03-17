@@ -8,7 +8,7 @@ public:
     Link<T> *next;
 
     Link(const T info,Link<T>*nextValue=NULL){
-        data=info;
+        data=info;   
         next=nextValue;
     }
     Link(const Link<T>*nextValue){
@@ -103,8 +103,8 @@ bool lnkList<T>::isEmpty(){
 
 template<class T>
 void lnkList<T>::clear(){
-    Link<T>* tmp;
     while(head!=NULL){
+        Link<T>* tmp;
         tmp=head;
         head=head->next;
         delete tmp;
@@ -115,7 +115,7 @@ void lnkList<T>::clear(){
 
 template<class T>
 int lnkList<T>::length(){
-    Link<T>* p;
+    Link<T>* p=head;
     int t=0;
     while(p!=NULL){
         p=p->next;
@@ -125,24 +125,22 @@ int lnkList<T>::length(){
 }
 
 template<class T>
+
 bool lnkList<T>::append(const T value){
-    if(head->next==NULL){
-        head=new Link<T>(value,head->next);
+    if(head==NULL){
+        head=new Link<T>(value,nullptr);
+        tail = head;
     }
     else{
-        Link<T>* p=new Link<T>(value,tail->next);
-        Link<T>* tmp=head;
-        while(tmp->next){
-            tmp=tmp->next;
-        }
-        tmp->next=p;
+        tail->next=new Link<T>(value);
+        tail=tail->next;
     }   
     return true;
 }
 
 template<class T>
 bool lnkList<T>::getValue(const int p,T& value){
-    if(p>length()){
+    if(p>length()||p<0){
         cout<<"非法位置"<<endl;
         return false;
     }
@@ -159,7 +157,7 @@ bool lnkList<T>::getValue(const int p,T& value){
 
 template<class T>
 bool lnkList<T>::pekValue(const int p,T& value){
-    if(p>length()){
+    if(p>length()||p<0){
         return false;
     }
     else{
