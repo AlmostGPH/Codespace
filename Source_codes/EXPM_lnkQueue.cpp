@@ -24,106 +24,124 @@ private:
     Link<T>* front;
     Link<T>* rear;
 public:
-    lnkQueue() {
-        size = 0;
-        front = rear = nullptr;
+    lnkQueue();
+    ~lnkQueue();
+    int length();
+    void clear();
+    bool enQueue(const T item);
+    bool absenQueue(const T item);
+    bool deQueue(T& item);
+    bool getFront(T& item);
+    bool getRear(T& item);
+    bool deRear(T& item);
+};
+template <class T>
+lnkQueue<T>::lnkQueue() {
+    size = 0;
+    front = rear = nullptr;
+}
+template <class T>
+lnkQueue<T>::~lnkQueue() {
+    clear();
+}
+template <class T>
+int lnkQueue<T>::length() {
+    return size;
+}
+template <class T>
+void lnkQueue<T>::clear() {                  //清除整个队列
+    while (front != nullptr) {
+        rear = front;
+        front = front->next;
+        delete rear;
     }
-    ~lnkQueue() {
-        clear();
+    rear = nullptr;
+    size = 0;
+}
+template <class T>
+bool lnkQueue<T>::enQueue(const T item) {            //从队尾输入一个元素
+    if (rear == nullptr) {
+        front = rear = new Link<T>(item, nullptr);
     }
-    int length() {
-        return size;
+    else {
+        rear->next = new Link<T>(item, nullptr);
+        rear = rear->next;
     }
-    void clear() {                  //清除整个队列
-        while (front != nullptr) {
-            rear = front;
-            front = front->next;
-            delete rear;
-        }
-        rear = nullptr;
-        size = 0;
+    size++;
+    return true;
+} 
+template <class T>
+bool lnkQueue<T>::absenQueue(const T item) {
+    if (size == 0) {
+        front = rear = new Link<T>(item, nullptr);
     }
-    bool enQueue(const T item) {            //从队尾输入一个元素
-        if (rear == nullptr) {
-            front = rear = new Link<T>(item, nullptr);
-        }
-        else {
+    else {
+        if (item < rear->data) {
             rear->next = new Link<T>(item, nullptr);
             rear = rear->next;
         }
-        size++;
-        return true;
-    }
-    bool absenQueue(const T item) {
-        if (rear == nullptr) {
-            front = rear = new Link<T>(item, nullptr);
-            size++;
-        }
         else {
-            if (item < rear->data) {
-                rear->next = new Link<T>(item, nullptr);
-                rear = rear->next;
-                size++;
-            }
-            else {
-                int vr;
-                deRear(vr);
-                absenQueue(item);
-            }
+            T vr;
+            deRear(vr);
+            absenQueue(item);
         }
-        return true;
     }
-
-    bool deQueue(T& item) {                     //从队首拿出一个元素
-        Link<T>* tmp;
-        if (size == 0) {
-            cout << "为空，没有元素" << endl;
-            return false;
-        }
-        item = front->data;
-        tmp = front;
-        front = front->next;
-        delete tmp;
-        if (front == nullptr) {
-            rear = nullptr;
-        }
-        size--;
-        return true;
+    size++;
+    return true;
+}
+template <class T>
+bool lnkQueue<T>::deQueue(T& item) {                     //从队首拿出一个元素
+    Link<T>* tmp;
+    if (size == 0) {
+        cout << "为空，没有元素" << endl;
+        return false;
     }
-    bool getFront(T& item) {                    //看看队首的元素
-        if (size == 0) {
-            cout << "为空，没有元素" << endl;
-            return false;
-        }
-        item = front->data;
-        return true;
+    item = front->data;
+    tmp = front;
+    front = front->next;
+    delete tmp;
+    if (front == nullptr) {
+        rear = nullptr;
     }
-    bool getRear(T& item) {                     //看看队尾的元素
-        if (size == 0) {
-            cout << "为空，没有元素" << endl;
-            return false;
-        }
-        item = rear->data;
-        return true;
+    size--;
+    return true;
+}
+template <class T>
+bool lnkQueue<T>::getFront(T& item) {                    //看看队首的元素
+    if (size == 0) {
+        cout << "为空，没有元素" << endl;
+        return false;
     }
-    bool deRear(T& item) {                      //拿出队尾的元素
-        Link<T>* tmp1,* tmp2;
-        tmp2 = rear;
-        if (size == 0) {
-            cout << "为空，没有元素" << endl;
-            return false;
-        }
-        item = rear->data;
-        tmp1 = front;
-        for (int i = 0; i < size - 1; i++) {
-            tmp1 = tmp1->next;
-        }
-        tmp1->next = nullptr;    
-        rear = tmp1;
-        delete tmp2;
-        return true;
+    item = front->data;
+    return true;
+}
+template <class T>
+bool lnkQueue<T>::getRear(T& item) {                     //看看队尾的元素
+    if (size == 0) {
+        cout << "为空，没有元素" << endl;
+        return false;
     }
-};
+    item = rear->data;
+    return true;
+}
+template <class T>
+bool lnkQueue<T>::deRear(T& item) {                      //拿出队尾的元素
+    Link<T>* tmp1,* tmp2;
+    tmp2 =rear;
+    if (size == 0) {
+        cout << "为空，没有元素" << endl;
+        return false;
+    }
+    item = rear->data;
+    tmp1 = front;
+    for (int i = 0; i < size - 1; i++) {
+        tmp1 = tmp1->next;
+    }  
+    rear = tmp1;
+    rear->next = nullptr;
+    size--;
+    return true;
+}
 
 int main() {
     int size = 0, win = 0;
